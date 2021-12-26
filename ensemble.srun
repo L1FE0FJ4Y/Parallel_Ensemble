@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --account=cis431_531		 ### your charge account
+#SBATCH --partition=short		 ### queue to submit to
+#SBATCH --job-name=JEP_pj_test		 ### job name
+#SBATCH --output=ensemble_%A.out		 ### file in which to store job stdout
+#SBATCH --error=ensemble_%A.err		 ### file in which to store job stderr
+#SBATCH --time=15			 ### wall-clock time limit, in minutes
+#SBATCH --mem=64000M			 ### memory limit per node, in MB
+#SBATCH --nodes=1			 ### number of nodes to use
+#SBATCH --ntasks-per-node=1		 ### number of tasks to launch per node
+#SBATCH --cpus-per-task=28		 ### number of cores for each task
+
+export KMP_AFFINITY=granularity=fine,compact,1
+export OMP_NUM_THREADS=16
+
+./linearmodels
+./linearensemble
+./parallelmodels
+./parallelensemble
